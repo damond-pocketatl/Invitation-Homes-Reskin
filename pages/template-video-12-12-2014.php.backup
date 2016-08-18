@@ -1,0 +1,176 @@
+<?php
+/*
+Template Name: Video Template
+*/
+function orderbyreplace($orderby) {
+	if ($orderby == "wp_posts.post_date DESC") return $orderby;
+	else $orderby .= ",wp_posts.post_date DESC";
+	return $orderby;
+}
+
+get_header(); ?>
+		<main id="main" role="main">
+			<?php the_title('<h1>', '</h1>'); ?>
+			<div id="twocolumns">
+				<!-- contain the main content of the page -->
+				<div id="content">
+					<div class="c1"> 
+					<?php 
+						
+						$pagenum = (isset($_GET['offset'])) ? $_GET['offset'] : 1;
+						$offset = ($pagenum-1) * 3;
+						if (isset($_POST['selectedId']) && is_array($_POST['selectedId'])) {
+							$cats = get_categories('taxonomy=video_category');
+							$ids = array();
+							foreach ($cats as $c)
+								$ids[] = $c->term_id;
+							
+							$query = 'post_type=video&posts_per_page=3&offset='.$offset.'&video_category='.implode(",", $_POST['selectedId']);
+							
+							$query = array(
+								'post_type' => 'video',
+								'posts_per_page' => 3,
+								'offset' => $offset,
+								'tax_query' => array(array(
+									'taxonomy' => 'video_category',
+									'terms' => $_POST['selectedId']
+								))
+							);
+							
+							if (count(array_diff($ids,$_POST['selectedId'])) <= 0)
+								unset($query['tax_query']);
+							
+							if (!isset($_POST['selectedId']) || count(array_intersect($_POST['selectedId'], array("95", "96")) >= 2))
+								add_filter('posts_orderby','orderbyreplace');
+							
+							if (isset($_POST['searchval']) && $_POST['searchval'] != "Search Keywords")
+								$query['s'] = $_POST['searchval'];
+							
+							if (in_array("95", $_POST['selectedId'])) {
+								$query['orderby'] = "meta_value_num";
+								$query['meta_key'] = "_views";
+								$query['order'] = "DESC";
+							} else if (in_array("95", $_POST['selectedId'])) {
+								$query['orderby'] = "";
+								$query['order'] = "";
+							}
+							$posts = query_posts($query);
+							
+						} else {
+
+							if (!isset($_POST['selectedId']) || count(array_intersect($_POST['selectedId'], array("95", "96")) >= 2)) {
+								add_filter('posts_orderby','orderbyreplace');
+							}
+							$query = 'post_type=video&posts_per_page=3&offset='.$offset;
+							//print_r($query);
+							$posts = query_posts($query);
+						}
+						remove_filter("posts_orderby", "orderbyreplace");
+						global $wp_query;
+						$max_pages = ceil($wp_query->found_posts / 3);
+						if ( have_posts() ) : ?>
+						<ul class="posts-list videos-list"><?php
+							while ( have_posts() ) : the_post(); $ytid = get_post_meta(get_the_id(), "_yt_id", true); ?>
+								<li><?php
+								 	if(has_post_thumbnail()) { ?>
+										<div class="img-holder">
+											<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('thumbnail'); ?></a>
+										</div><?php
+									} else { ?>
+										<div class="img-holder">
+											<a href="<?php the_permalink(); ?>"><img src="http://img.youtube.com/vi/<?=$ytid?>/hqdefault.jpg" /></a>
+										</div><?
+									} ?>	
+
+									<div class="description">
+										<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+										<p><?php the_excerpt(); ?></p>
+										<div class="meta">
+											<!-- social plugin container -->
+											<ul class="share-list">
+												<li><span class="btn-share st_facebook_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Facebook</span></li>
+												<li><span class="btn-share st_twitter_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Twitter</span></li>
+												<li><span class="btn-share st_pinterest_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Pinterest</span></li>
+												<li><span class="btn-share st_email_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Email</span></li>
+											</ul>
+										</div>
+									</div>
+								</li><?php
+							endwhile; ?>
+						</ul>
+						<script type="text/javascript">
+							jQuery(document).ready(function($) {
+								var timer;
+								$(".wp-pagenavi a.page, .wp-pagenavi .nextpostslink").click(function() {
+									$("#search-form").attr('action', $(this).attr('href')).submit();
+									return false;
+								});
+								$("#searchval").focus(function() {
+									if ($(this).val() == "Search Keywords")
+										$(this).val('');
+								}).blur(function() {
+									if ($(this).val() == "")
+										$(this).val('Search Keywords');
+								});
+								$(".selectedId").click(function() {
+									clearTimeout(timer);
+									$("#search-form .loading").show();
+									timer = setTimeout('jQuery("#search-form").submit()', 1500);
+								});
+							});
+						</script>
+						<div class="wp-pagenavi">
+							<span class="pages">Page <?=$pagenum?> of <?=$max_pages?></span>
+							<?
+							for ($i = 1; $i <= $max_pages; $i++) { 
+								if ($i == $pagenum) {
+									?><span class="current"><?=$i?></span><?
+								} else {
+									?><a class="page larger" href="<?=add_query_arg(array('offset'=>$i))?>"><?=$i?></a><?
+								}
+							} ?>
+							<? if ($pagenum < $max_pages) { ?>
+							<a class="nextpostslink" rel="next" href="<?=add_query_arg(array('offset'=>($pagenum+1)))?>">»</a>
+							<? } ?>
+						</div>
+						<?php
+							else:
+							get_template_part('blocks/not_found');
+							endif; ?> 
+					</div>
+				</div>
+				<!-- contain sidebar of the page -->
+				<? $searchval = (isset($_POST['searchval']) && $_POST['searchval'] != "") ? $_POST['searchval'] : 'Search Keywords'; ?>
+				<aside id="sidebar">
+					<div class="search-box">
+							<form method="POST" id="search-form" class="search-form" >
+							<div class="form-main">
+								<div class="holder">
+									<input type="search" name="searchval" id="searchval" value="<?=$searchval?>">
+									<input type="submit" value="Search">
+								</div>
+							</div>
+							<div class="check-holder">
+								<strong class="title">Video Categories:</strong>
+								<div class="row">
+									<input type="checkbox" <? echo (!isset($_POST['selectedId'])) ? 'checked="checked"' : ''; ?> id="selectall">
+									<label for="selectall">View All</label>
+								</div><?php
+								$args = array('taxonomy' => 'video_category','hide_empty' => 0,); 
+								$category = get_categories($args); 
+								 foreach ($category as $c)
+								{ ?>
+									 <div class="row">
+										<input type="checkbox" name="selectedId[]" <? echo ((isset($_POST['selectedId']) && in_array($c->term_id, $_POST['selectedId'])) || !isset($_POST['selectedId'])) ? 'checked="checked"' : ''; ?> class="selectedId" value="<?php echo $c->term_id ?>" id="<?php echo $c->term_id ?>"><?php echo $c->cat_name; ?></input>
+									</div><?php
+								} ?>
+								<img src="<?=get_template_directory_uri()?>/images/loading.gif" style="display: none" class="loading" />
+							</div>
+							
+						</form>
+					</div>
+					<?php get_sidebar(); ?>
+				</aside>
+			</div>
+		</main><?php
+get_footer(); ?>

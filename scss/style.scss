@@ -1,0 +1,1721 @@
+/*
+Theme Name: InvitationHomes
+Author: Anonymous
+Author URI:
+Version: 1
+Description: Base theme for Wordpress
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: base
+Tags: one-column, two-columns
+Theme URI:
+*/
+
+$mq-breakpoints: (
+    // Base device classes
+    mobile:      320px,
+    tablet:    768px,
+    desktop:    1025px,
+);
+
+/* ---------------------------------------------------------
+   1. General reset
+   2. Custom form styles
+   3. Common site styles
+   ---------------------------------------------------------*/
+
+@import "base/markup-variables";
+@import "base/markup-mixins";
+@import "base/wp-reset";
+@import "jcf";
+@import "fancybox";
+@import "mq";
+
+/* ---------------------------------------------------------
+   3. Common site styles
+   ---------------------------------------------------------*/
+
+/* main container styles */
+#wrapper{
+    width: 100%;
+    height: 100%;
+    display: table;
+    table-layout: fixed;
+}
+.w1{
+    max-width: 999px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 44px 10px 0;
+    @include mq($until: tablet){
+        padding-top: 0;
+    }
+}
+
+/* header styles */
+#header{
+    position: relative;
+    z-index: 10;
+    font-weight: bold;
+    padding: 0 0 20px;
+    text-transform: uppercase;
+    @extend %clearfix;
+
+    .tabset{
+        @extend %listreset-wp;
+        font-size: 16px;
+        line-height: 19px;
+        float: right;
+        @include mq($until: desktop){
+            font-size: 10px;
+        }
+        @include mq($until: tablet){
+            float: none;
+        }
+        li{
+            float: left;
+            padding: 0;
+            &:after{
+                display: none;
+            }
+            @include mq($until: tablet){
+                float: none;
+                overflow: hidden;
+            }
+        }
+        a{
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 11px 12px;
+            i{
+                float: left;
+                font-size: 24px;
+                margin: -4px 9px -1px 4px;
+            }
+            i.icon-key{
+                font-size: 26px;
+                margin: -5px 9px -2px 4px;
+            }
+        }
+        li.active,
+        a:hover{background: #0554a2;}
+    }
+}
+.tabset-holder{
+    @extend %clearfix;
+    background: #0071ce;
+    padding: 0 2px 0 26px;
+    position: relative;
+    z-index: 10;
+    @include mq($until: tablet){
+        padding: 0;
+    }
+}
+
+/* page logo styles */
+.logo-holder{
+    background: #0071ce;
+    @include mq($until: tablet){
+        @extend %clearfix;
+        padding: 15px;
+    }
+}
+.logo{
+    position: absolute;
+    top: -17px;
+    left: 26px;
+    width: 279px;
+    z-index: 11;
+    @include mq($until: tablet){
+        display: block;
+        width: 180px;
+        position: static;
+    }
+    img{
+        vertical-align: top;
+    }
+}
+
+.nav-drop{
+    @include mq($until: tablet){
+        position: absolute;
+        width: 100%;
+        top: 78px;
+        left: 0;
+        overflow: hidden;
+        max-height:0;
+        -webkit-transition:all 0.25s linear;
+        transition:all 0.25s linear;
+        z-index: 21;
+    }
+}
+.nav-active .nav-drop{
+    @include mq($until: tablet){
+        max-height:4000px;
+    }
+}
+
+.nav-drop-holder{
+    @include mq($until: tablet){
+        border-top: 1px solid #fff;
+        overflow: hidden;
+        -webkit-transition:all 0.25s linear;
+        transition:all 0.25s linear;
+        -webkit-transform:translateY(-100%);
+        -ms-transform:translateY(-100%);
+        transform:translateY(-100%);
+    }
+}
+.nav-active .nav-drop-holder{
+    @include mq($until: tablet){
+        -webkit-transform:translateY(0);
+        -ms-transform:translateY(0);
+        transform:translateY(0);
+    }
+}
+
+.resize-active .nav-drop,
+.resize-active .nav-drop-holder{
+    -webkit-transition:none !important;
+    -ms-transition:none !important;
+    transition:none !important;
+}
+
+.nav-opener{
+    display: none;
+    @include mq($until: tablet){
+        display: block;
+    }
+    position: absolute;
+    top: 23px;
+    right: 10px;
+    width:31px;
+    height:31px;
+    background:#000;
+    background:rgba(0, 0, 0, .5);
+    border-radius:3px;
+    text-indent:-9999px;
+    overflow:hidden;
+    &:hover{
+        opacity:.9;
+    }
+    &:before,
+    &:after,
+    span{
+        background:#fff;
+        border-radius:4px;
+        position:absolute;
+        top:16px;
+        left:25%;
+        right:25%;
+        height:3px;
+        margin-top:-2px; /* height/2 */
+        -webkit-transition:all 0.2s linear;
+        transition:all 0.2s linear;
+    }
+    &:before,
+    &:after{
+        content:'';
+        top:10px;
+    }
+    &:after{top:22px;}
+}
+
+.nav-active .nav-opener {
+    span{
+        opacity:0;
+    }
+    &:after,
+    &:before{
+        -moz-transform:rotate(45deg);
+        -webkit-transform:rotate(45deg);
+        -ms-transform:rotate(45deg);
+        transform:rotate(45deg);
+        top:16px;
+        left:15%;
+        right:15%;
+    }
+    &:after{
+        -moz-transform:rotate(-45deg);
+        -webkit-transform:rotate(-45deg);
+        -ms-transform:rotate(-45deg);
+        transform:rotate(-45deg);
+    }
+}
+
+.location-holder{
+    overflow: hidden;
+    background: #ebebeb;
+    padding: 16px 15px;
+    @include mq($until: tablet){
+        padding: 15px 10px;
+    }
+    .tab-content{
+        overflow: hidden;
+        margin: 3px 0 0;
+        @include mq($until: desktop){
+            @extend %clearfix;
+            float: none;
+            padding-bottom: 10px;
+        }
+        @include mq($until: tablet){
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        ul{
+            padding: 0;
+            margin: 0 0 0 -30px;
+            font-size: 14px;
+            line-height: 17px;
+            float: right;
+            text-transform: uppercase;
+            @include mq($until: tablet){
+                float: none;
+            }
+            li{
+                float: left;
+                padding: 6px 0 10px 30px;
+                &:after{
+                    display: none;
+                }
+                @include mq($until: tablet){
+                    width: 100%;
+                    padding-bottom: 20px;
+                }
+            }
+            a{
+                text-decoration: none;
+                color: #0554a2;
+                float: left;
+                position: relative;
+                padding: 0 0 0 44px;
+                i{
+                    color: #fdb813;
+                    font-size: 29px;
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    margin: -14px 0 0;
+                }
+                &:hover{
+                    color: #021b34;
+                }
+            }
+        }
+    }
+}
+
+/* search form styles */
+.location-form{
+    float: right;
+    margin: 0 0 0 27px;
+    input[type="submit"]{
+        float: left;
+        height: 36px;
+    }
+    @include mq($until: desktop){
+        float: right;
+        clear: right;
+    }
+    @include mq($until: tablet){
+        float: none;
+        overflow: hidden;
+        margin: 0 0 15px;
+    }
+}
+.location-form .jcf-select{
+    margin: 1px 0 0;
+    width: 238px;
+    border: none;
+
+}
+@include mq($until: tablet){
+    .location-form .jcf-select{
+        width: 170px;
+    }
+}
+
+/* slideshow styles */
+.slideshow{
+    position: relative;
+    overflow: hidden;
+    height: 417px;
+    margin: 0 0 6px;
+    .slideset{
+        position: relative;
+        z-index: 1;
+        @include mq($until: tablet){
+            margin: 0 -25%;
+        }
+    }
+    .slide{
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        img{
+            display: block;
+            max-width: none;
+            width: 100%;
+        }
+    }
+    .slide.active{
+        z-index: 2;
+    }
+    .pagination{
+        position: absolute;
+        z-index: 2;
+        bottom: 8px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 0;
+        line-height: 0;
+        ul{
+            @extend %listreset-wp;
+            display: inline-block;
+            vertical-align: top;
+        }
+        li{
+            float: left;
+            padding: 0 6px 7px 7px;
+            &:after{
+                display: none;
+            }
+        }
+        a{
+            display: block;
+            text-indent: -9999px;
+            overflow: hidden;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ebebeb;
+            box-shadow:1px 1px 2px 0 rgba(30,30,30,0.44);
+        }
+        li.active a,
+        a:hover{
+            background: #9e9e9e;
+            box-shadow:1px 1px 2px 0 rgba(30,30,30,0.88);
+        }
+    }
+}
+
+.info{
+    position: absolute;
+    top: 50%;
+    right: 23px;
+    width: 288px;
+    height: 288px;
+    border-radius: 50%;
+    z-index: 3;
+    background: rgba(12,41,95,0.7);
+    margin: -143px 0 0;
+    padding: 29px 20px 0;
+    text-align: center;
+    color: #fff;
+    font-weight: normal;
+    text-transform: none;
+    font-size: 19px;
+    line-height: 24px;
+    @include mq($until: tablet){
+        position: static;
+        margin: 0;
+        padding: 20px;
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        font-size: 16px;
+        line-height: 19px;
+        p{
+            margin: 0;
+        }
+    }
+    img{
+        display: block;
+        margin: 0 auto 27px;
+    }
+}
+
+/* footer styles */
+#footer{
+    width: 100%;
+    overflow: hidden;
+    display: table-footer-group;
+    height: 1%;
+    font-size: 11px;
+    line-height: 15px;
+    color: #fff;
+    a{
+        color: #fff;
+        text-decoration: none;
+    }
+    li.active a,
+    a:hover{
+        color: #bababa;
+        text-decoration: none;
+    }
+    .footer-holder{
+        max-width: 999px;
+        padding: 0 10px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    .footer-frame{
+        overflow: hidden;
+        background: #0071ce;
+        padding: 20px 31px 40px;
+    }
+    .copy{
+        font-size: 10px;
+    }
+    p{
+        margin: 0 0 7px;
+    }
+    img{
+        display: block;
+        margin: 0 0 0 2px;
+    }
+    .columns-holder{
+        overflow: hidden;
+        margin: 0 0 28px -10px;
+    }
+    .column{
+        float: left;
+        padding: 0 0 0 10px;
+        width: 305px;
+        &.column2{
+            width: 332px;
+        }
+        &.column3{
+            width: 290px;
+        }
+        @include mq($until: desktop){
+            width: 100% !important;
+        }
+    }
+    .title{
+        display: block;
+        text-transform: uppercase;
+        margin: 0 0 13px;
+    }
+    .list-holder{
+        overflow: hidden;
+        margin: 0 0 0 -10px;
+        ul{
+            margin: 0;
+            padding: 0 0 0 10px;
+            float: left;
+            @include mq($until: desktop){
+                width: 50% !important;
+                padding-bottom: 20px;
+            }
+        }
+        .list1{width: 137px;}
+        .list2{width: 168px;}
+        .list3{width: 184px;}
+        .list4{width: 148px;}
+        .list5{width: 152px;}
+        .list6{width: 138px;}
+        li{
+            padding: 0 0 3px;
+            &:after{
+                display: none;
+            }
+        }
+    }
+    .social-networks{
+        overflow: hidden;
+        padding: 3px 0 9px;
+        margin: 0 0 0 -4px;
+        li{
+            float: left;
+            padding: 0 0 4px 4px;
+            &:after{
+                display: none;
+            }
+        }
+        a{
+            float: left;
+            text-indent: -9999px;
+            overflow: hidden;
+            width: 21px;
+            height: 21px;
+            background: url(images/ico-social-networks.png) no-repeat;
+
+            &.twitter{background-position: -25px 0;}
+            &.youtube{background-position: -50px 0;}
+            &.google-plus{background-position: -75px 0;}
+            &.pinterest{background-position: -100px 0;}
+            &.email{background-position: -125px 0;}
+
+            &.facebook:hover{background-position: 0 -25px;}
+            &.twitter:hover{background-position: -25px -25px;}
+            &.youtube:hover{background-position: -50px -25px;}
+            &.google-plus:hover{background-position: -75px -25px;}
+            &.pinterest:hover{background-position: -100px -25px;}
+            &.email:hover{background-position: -125px -25px;}
+        }
+        
+    }
+}
+
+.intro-posts{
+    overflow: hidden;
+    font-size: 0;
+    line-height: 0;
+    margin: 0 0 14px -23px;
+    @include mq($until: tablet){
+        margin-left: 0;
+    }
+
+    .item{
+        display: inline-block;
+        vertical-align: top;
+        width: 33.333%;
+        font-size: $base-font-size;
+        line-height: 17px;
+        padding: 0 0 24px 23px;
+        @include mq($until: tablet){
+            width: 100%;
+            padding-left: 0;
+        }
+    }
+    .img-holder{
+        overflow: hidden;
+        margin: 0 0 9px;
+        @include mq($until: tablet){
+            max-width: 300px;
+            margin: 0 auto 9px;
+        }
+    }
+    img{
+        display: block;
+        width: 100%;
+        max-width: none;
+    }
+    .title{
+        font-size: 16px;
+        line-height: 19px;
+        display: block;
+        a{
+            text-decoration: none;
+        }
+    }
+    p{
+        margin: 0;
+    }
+}
+
+.btn-play{
+    display: block;
+    position: relative;
+    z-index: 1;
+    
+    &:before,
+    &:after{
+        content:'';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 58px;
+        height: 58px;
+        margin: -29px 0 0 -29px;
+        border-radius:50%;
+        background: #fff;
+        opacity:0.8;
+        box-shadow:0 2px 8px 0 rgba(144,144,144,0.75);
+    }
+    &:after{
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 16px 0 16px 17px;
+        border-color: transparent transparent transparent #fdb813;
+        background: none;
+        border-radius:0;
+        box-shadow:none;
+        margin: -16px 0 0 -5px;
+    }
+    &:hover:before,
+    &:hover:after{
+        opacity: 1;
+    }
+}
+
+.boxes-row {
+    .btn-play{
+        &:before{
+            width: 38px;
+            height: 38px;
+            margin: -19px 0 0 -19px;
+        }
+        &:after{
+            border-width: 10px 0 10px 10px;
+            margin: -10px 0 0 -3px;
+        }
+    }
+}
+
+.page-content{
+    overflow: hidden;
+    margin: 0 0 10px;
+
+    h1{
+        margin: 0 0 14px;
+    }
+}
+
+#twocolumns{
+    overflow: hidden;
+    padding: 20px 0 41px;
+}
+
+/* main content styles */
+#content{
+    width: 100%;
+    float: left;
+    @include mq($until: tablet){
+        float: none;
+        @extend %clearfix;
+    }
+
+    .c1{
+        margin: 0 254px 0 0;
+        @include mq($until: tablet){
+            margin: 0 0 35px;
+        }
+    }
+}
+
+/* posts list styles */
+.posts-list{
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    line-height: 16px;
+    & > li{
+        border-bottom: 3px solid $base-input-border-color;
+        overflow: hidden;
+        padding: 20px 0 21px;
+        &:first-child{
+            padding-top: 0;
+        }
+        &:after{
+            display: none;
+        }
+    }
+    .img-holder{
+        float: left;
+        width: 150px;
+        margin: 2px 22px 0 0;
+        @include mq($until: tablet){
+            float: none;
+            margin: 0 0 15px;
+        }
+        img{
+            display: block;
+            max-width:none;
+            width: 100%;
+        }
+    }
+    .description{
+        overflow: hidden;
+        padding: 0 5px 0 0;
+        @include mq($until: tablet){
+            padding: 0;
+        }
+    }
+    h2{
+        font-size: 16px;
+        line-height: 20px;
+        margin: 0 0 16px;
+    }
+    p{
+        margin: 0 0 10px;
+    }
+    .share-list{
+        margin: 0 -5px -4px 0;
+        @include mq($until: desktop){
+            float: none;
+            margin: 0;
+        }
+    }
+    time{
+        margin: 6px 0 10px;
+        @include mq($until: desktop){
+            float: none;
+            display: block;
+        }
+    }
+}
+
+.videos-list{
+    .img-holder{
+        width: 230px;
+    }
+}
+
+/* social plugin container styles */
+.share-list{
+    @extend %listreset-wp;
+    float: right;
+    @include mq($until: tablet){
+        float: none;
+    }
+    li{
+        float: left;
+        padding: 0 0 4px 4px;
+        &:after{
+            display: none;
+        }
+        &:first-child{
+            padding-left: 0;
+        }
+    }
+    .btn-share{
+        float: left;
+        width: 21px;
+        height: 21px;
+        text-indent: -9999px;
+        overflow: hidden;
+        background: url(images/ico-social-networks.png) no-repeat;
+        cursor: pointer;
+        &.st_facebook_custom{
+            background-position: 0 -51px;
+            &:hover{
+                background-position: 0 -25px;
+            }
+        }
+        &.st_twitter_custom{
+            background-position: -25px -51px;
+            &:hover{
+                background-position: -25px -25px;
+            }
+        }
+        &.st_pinterest_custom{
+            background-position: -100px -51px;
+            &:hover{
+                background-position: -100px -25px;
+            }
+        }
+        &.st_email_custom{
+            background-position: -125px -51px;
+            &:hover{
+                background-position: -125px -25px;
+            }
+        }
+    }
+}
+
+/* sidebar styles */
+#sidebar{
+    float: right;
+    width: 232px;
+    margin: 0 0 0 -100%;
+    font-size: 13px;
+    line-height: 18px;
+    @include mq($until: tablet){
+        width: auto;
+        float: none;
+        margin: 0;
+    }
+    a{
+        color: #727272;
+        &:hover{
+            color: #0071ce;
+        }
+    }
+}
+
+.banner{
+    @include mq($until: tablet){
+        text-align: center;
+    }
+}
+
+.search-box{
+    overflow: hidden;
+    margin: -22px 0 21px;
+    .search-form{
+        margin: 0;
+        input[type="search"]{
+            float: left;
+            border: none;
+            margin: 0;
+            padding: 8px 7px;
+            background: none;
+            font-size: 12px;
+        }
+        input[type="submit"]{
+            width: 19px;
+            height: 20px;
+            background: url(images/sprite.png) no-repeat;
+            border: none;
+            box-shadow: none;
+            text-indent: -9999px;
+            overflow: hidden;
+            font-size: 0;
+            line-height: 0;
+            border-radius: 0;
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            padding: 0;
+            &:hover{
+                background-position: 0 -30px;
+            }
+        }
+    }
+    .form-main{
+        overflow: hidden;
+        background: #0554a2;
+        padding: 17px 11px 15px;
+        .holder{
+            background: #fff;
+            border-radius:4px;
+            padding: 0 30px 0 0;
+            position: relative;
+            @extend %clearfix;
+        }
+    }
+    .check-holder{
+        overflow: hidden;
+        background: #0071ce;
+        color: #fff;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 11px 11px 10px;
+        .title{
+            display: block;
+            text-transform: uppercase;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 17px;
+            margin: 0 0 7px;
+        }
+        .row{
+            @extend %clearfix;
+            padding: 0 0 5px 1px;
+            text-transform: capitalize;
+        }
+        label{
+            display: block;
+            overflow: hidden;
+            padding: 2px 0 0;
+        }
+    }
+}
+
+.video-box{
+    overflow: hidden;
+    margin: -6px 0 22px;
+    font-size: 12px;
+    line-height: 16px;
+    h2{
+        font-size: 16px;
+        line-height: 19px;
+    }
+    .player{
+        overflow: hidden;
+        margin: 0 0 20px;
+        img{
+            display: block;
+        }
+    }
+    .description{
+        overflow: hidden;
+        padding: 0 16px 0 0;
+    }
+    p{
+        margin: 0 0 11px;
+    }
+    .btn{
+        @include mq($until: tablet){
+            float: none;
+            display: inline-block;
+            vertical-align: top;
+            margin: 0 0 15px;
+        }
+    }
+}
+.btn-row{
+    @extend %clearfix;
+    .share-list{
+        margin: -6px 0 0;
+    }
+}
+
+.btn{
+    float: left;
+    border: solid #fdb813;
+    border-width: 3px 2px;
+    background: #fdb813;
+    color: #fff;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    box-shadow:inset 0 0 1px 2px rgba(255,255,255,1);
+    border-radius: 6px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 7px 14px 8px;
+    &:hover{
+        background: #fdca65;
+        border-color: #fdca65;
+        text-decoration: none;
+        color: #fff;
+    }
+}
+
+.btn-back{
+    float: left;
+    font-size: 12px;
+    line-height: 15px;
+    color: #a6a6a6;
+    position: relative;
+    padding: 0 0 0 15px;
+    margin: 0 0 14px;
+    &:hover{
+        color: #282828;
+        &:before{
+            border-color: transparent #282828 transparent transparent;
+        }
+    }
+    &:before{
+        content:'';
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6px 7px 6px 0;
+        border-color: transparent #b5b5b5 transparent transparent;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        margin: -6px 0 0;
+    }
+}
+
+/* single post styles */
+.post{
+    overflow: hidden;
+    padding: 22px 0 5px;
+    &.single-post{
+        padding: 1px 0 0;
+    }
+    h2{
+        font-size: 20px;
+        line-height: 24px;
+        margin: 0 0 19px;
+    }
+    .meta{
+        overflow: hidden;
+        margin: 0 0 21px;
+        time{
+            margin: 6px 0 0;
+            @include mq($until: tablet){
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .post-img{
+        overflow: hidden;
+        margin: 0 0 8px;
+        position: relative;
+        img{
+            display: block;
+            max-width: none;
+            width: 100%;
+        }
+        .note{
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #fdb813;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 17px;
+            padding: 1px 9px 2px;
+        }
+    }
+    .more{
+        font-size: 12px;
+    }
+}
+
+time{
+    float: left;
+    position: relative;
+    font-size: 11px;
+    line-height: 15px;
+    color: #848484;
+    padding: 0 0 0 14px;
+    &:before{
+        content:'';
+        position: absolute;
+        top: 3px;
+        left: 0;
+        width: 7px;
+        height: 7px;
+        background: #fec454;
+        border-radius: 50%;
+    }
+    @include mq($until: tablet){
+        float: none;
+        display: block;
+    }
+}
+
+.single-post-alt{
+    border-bottom: 3px solid $base-input-border-color;
+    margin: 0 0 61px;
+    .post-img{
+        margin: 0 0 18px;
+    }
+    p{
+        margin: 0 0 10px;
+    }
+    .meta{
+        margin: 0 0 15px;
+    }
+}
+
+/* visual block styles */
+.visual{
+    overflow: hidden;
+    position: relative;
+    margin: 0 0 33px;
+    color: #fff;
+    font-size: 16px;
+    line-height: 20px;
+    .img{
+        display: block;
+        width: 100%;
+        max-width:none;
+    }
+    a{
+        color: #fff;
+        &:hover{
+            text-decoration: none;
+        }
+    }
+    p{
+        margin: 0;
+    }
+    .details{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 13px 22px 14px;
+        background: rgba(5,84,162,0.69);
+        @include mq($until: tablet){
+            position: static;
+            margin: 0 0 15px;
+        }
+        img{
+            float: right;
+            margin: 0 -8px 0 10px;
+            @include mq($until: tablet){
+                display: block;
+                margin: 0 auto;
+                float: none;
+            }
+        }
+        .text{
+            overflow: hidden;
+            padding: 9px 0 0;
+        }
+    }
+}
+
+.boxes-row{
+    padding: 30px 0 44px;
+    border-top: 3px solid $base-input-border-color;
+    overflow: hidden;
+    h3{
+        font-size: 18px;
+        line-height: 21px;
+        margin: 0 0 19px;
+    }
+    .intro-alt{
+        float: left;
+        width: 220px;
+        margin: 2px 0 0;
+        font-size: 13px;
+        line-height: 17px;
+        @include mq($until: desktop){
+            float: none;
+            width: auto;
+        }
+        @include mq($until: tablet){
+            text-align: center;
+        }
+    }
+    .items-box{
+        width: 730px;
+        float: right;
+        font-size: 13px;
+        line-height: 15px;
+        @include mq($until: desktop){
+            float: none;
+            overflow: hidden;
+            width: auto;
+        }
+        @include mq($until: tablet){
+            width: 230px;
+            margin: 0 auto;
+        }
+        .holder{
+            overflow: hidden;
+            margin: 0 0 0 -20px;
+        }
+        .item{
+            float: left;
+            width: 33.333%;
+            padding: 0 0 0 20px;
+            @include mq($until: tablet){
+                width: 100%;
+                padding-bottom: 30px;
+            }
+        }
+        img{
+            display: block;
+            margin: 0 0 9px;
+            max-width: none;
+            width: 100%;
+        }
+        p{
+            margin: 0;
+        }
+    }
+}
+
+.comments-area{
+    overflow: hidden;
+    padding: 11px 0 0;
+    .holder{
+        background: #ebebeb;
+        padding: 21px 22px 0 25px;
+        overflow: hidden;
+        @include mq($until: tablet){
+            padding: 15px 15px 0;
+        }
+    }
+    .title-row{
+        overflow: hidden;
+        margin: 0 0 10px;
+        h3{
+            float: left;
+            margin: 0;
+        }
+    }
+    h3{
+        font-size: 18px;
+        line-height: 23px;
+        margin: 0 0 19px;
+    }
+    .counter{
+        float: right;
+        font-size: 11px;
+        line-height: 15px;
+        color: #848484;
+        margin: 7px 7px 0 0;
+    }
+    .comment-form{
+        @extend %clearfix;
+        margin: 0 0 23px;
+        .form-columns{
+            @extend %clearfix;
+            padding: 0 2px;
+            p{
+                @extend %clearfix;
+                position: relative;
+                margin: 0;
+                padding: 0 0 7px;
+            }
+        }
+        .column{
+            width: 100%;
+            float: left;
+            .column-main{
+                margin: 0 265px 0 0;
+                @include mq($until: desktop){
+                    margin: 0;
+                }
+            }
+            @include mq($until: desktop){
+                float: none;
+            }
+        }
+        .column-r{
+            float: right;
+            width: 243px;
+            margin: 0 0 0 -100%;
+            @include mq($until: desktop){
+                width: auto;
+                float: none;
+                margin: 0;
+            }
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea{
+            width: 100%;
+            margin: 0;
+            padding: 8px;
+            border: none;
+            background: #fff;
+            border-radius: 4px;
+            float: left;
+        }
+        textarea{
+            height: 114px;
+            min-height: 114px;
+        }
+        label{
+            font: 12px/15px $base-font-family;
+            color: $base-form-text-color;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            cursor: text;
+            &.label-active{
+                display: none;
+            }
+            .note{
+                color: #a09e9e;
+                padding: 0 0 0 4px;
+            }
+        }
+        input[type="submit"]{
+            float: right;
+            height: 29px;
+        }
+    }
+    .comments{
+        overflow: hidden;
+        border-top: 1px solid #fff;
+        padding: 17px 0 0;
+    }
+    .commentlist{
+        overflow: hidden;
+        margin: 0 0 5px;
+        .commentlist-item{
+            overflow: hidden;
+            border-top: 1px solid #fff;
+            .comment{
+                padding: 19px 0;
+            }
+            .commentlist-item{
+                margin-left: 25px;
+            }
+        }
+        .commentlist-item:first-child{
+            border: none;
+            > .comment{
+                padding-top: 0;
+            }
+        }
+    }
+    .meta{
+        overflow: hidden;
+        font-size: 11px;
+        line-height: 15px;
+        color: #848484;
+        p{
+            margin: 0;
+        }
+        .details{
+            float: right;
+            @include mq($until: tablet){
+                float: none;
+            }
+        }
+    }
+    a{
+        color: #0071ce;
+        &:hover{
+            color: #848484;
+        }
+    }
+}
+
+/* pagination block styles */
+.wp-pagenavi{
+    text-align: center;
+    overflow: hidden;
+    font-size: 0;
+    line-height: 0;
+    padding: 24px 0 0;
+    color: #a6a6a6;
+    .current,
+    .page,
+    .extend{
+        display: inline-block;
+        vertical-align: middle;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 17px;
+        margin: 0 1px 2px;
+    }
+    .current,
+    .page{
+        min-width: 21px;
+        height: 21px;
+        padding: 1px 2px 0;
+        color: #a6a6a6;
+    }
+    .current,
+    .page:hover{
+        background: #0071ce;
+        border-radius: 10px;
+        color: #fff;
+        text-decoration: none;
+    }
+    .first,
+    .last,
+    .previouspostslink,
+    .nextpostslink{
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        &:before,
+        &:after{
+            content:'';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 4.5px 5px 4.5px 0;
+            border-color: transparent #b5b5b5 transparent transparent;
+            float: left;
+        }
+        &:hover:before,
+        &:hover:after{
+            border-color: transparent #0071ce transparent transparent;
+        }
+    }
+    .last{
+        &:before,
+        &:after{
+            border-width: 4.5px 0 4.5px 5px;
+            border-color: transparent transparent transparent #b5b5b5;
+        }
+        &:hover:before,
+        &:hover:after{
+            border-color: transparent transparent transparent #0071ce;
+        }
+    }
+    .previouspostslink,
+    .nextpostslink{
+        &:after{
+            display: none;
+        }
+    }
+    .previouspostslink{
+        margin: 0 25px 0 2px;
+        &:before{
+            border-width: 6px 7px 6px 0;
+        }
+    }
+    .nextpostslink{
+        margin: 0 2px 0 25px;
+        &:before{
+            border-width: 6px 0 6px 7px;
+            border-color: transparent transparent transparent #b5b5b5;
+        }
+        &:hover:before{
+            border-color: transparent transparent transparent #0071ce;
+        }
+    }
+    .separator{
+        width: 1px;
+        height: 21px;
+        background: #dadada;
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 7px 1px;
+    }
+}
+
+.main-holder{
+    overflow: hidden;
+    padding: 14px 0 0;
+}
+.map-area{
+    overflow: hidden;
+    background: #0071ce;
+    margin: 0 0 25px;
+    .map-img{
+        display: block;
+        max-width: none;
+    }
+    .map{
+        float: left;
+        width: 100%;
+        @include mq($until: tablet){
+            float: none;
+            overflow: hidden;
+        }
+        .holder{
+            margin: 0 256px 0 0;
+            overflow: hidden;
+            @include mq($until: tablet){
+                margin: 0;
+            }
+        }
+    }
+    .aside{
+        float: right;
+        width: 210px;
+        margin: 0 22px 0 -232px;
+        padding: 17px 0 0;
+        color: #fff;
+        @include mq($until: tablet){
+            float: none;
+            width: auto;
+            margin: 0;
+            padding: 15px 15px 5px;
+        }
+        a{
+            color: #fff;
+            &:hover{
+                text-decoration: none;
+            }
+        }
+        h2{
+            margin: 0 0 8px;
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        form{
+            margin: 0 0 7px;
+        }
+        .row{
+            @extend %clearfix;
+            position: relative;
+            margin: 0 0 6px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea{
+            width: 100%;
+            margin: 0;
+            padding: 8px;
+            border: none;
+            background: #fff;
+            border-radius: 4px;
+            float: left;
+        }
+        textarea{
+            height: 65px;
+            min-height: 65px;
+        }
+        label{
+            font: 12px/15px $base-font-family;
+            color: $base-form-text-color;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            cursor: text;
+            &.label-active{
+                display: none;
+            }
+            .note{
+                color: #a09e9e;
+                padding: 0 0 0 4px;
+            }
+        }
+        input[type="submit"]{
+            float: right;
+            height: 29px;
+        }
+        address{
+            font-style: normal;
+            font-size: 13px;
+            line-height: 16px;
+            margin: 0 0 9px;
+            dl{
+                margin: 0;
+                border-top: 1px solid #0557a6;
+                padding: 8px 0 7px;
+                dt{
+                    float: none;
+                    font-weight: normal;
+                    text-transform: uppercase;
+                    padding: 0;
+                }
+            }
+        }
+        a.tel-link{
+            text-decoration: none;
+            font-size: 18px;
+            line-height: 21px;
+            display: inline-block;
+            vertical-align: top;
+            margin: 0 0 7px;
+        }
+    }
+}
+
+/* cycle carousel basic styles */
+.cycle-gallery{
+    position: relative;
+    .mask{
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+    }
+    .slideset{
+        width: 99999px;
+        float: left;
+    }
+    .slide{
+        float: left;
+        &.active{
+            z-index: 1;
+        }
+    }
+}
+.featured{
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 15px;
+    color: #343434;
+    border-bottom: 3px solid $base-input-border-color;
+    padding: 0 0 23px;
+    margin: 0 0 23px;
+    address{
+        font-style: normal;
+        margin: 0;
+    }
+    h2{
+        margin: 0 0 9px;
+    }
+    h3{
+        font-size: 14px;
+        line-height: 17px;
+        margin: 0 0 0px;
+        a{
+            color: #343434;
+            text-decoration: none;
+            &:hover{
+                color: $base-link-hover-color;
+            }
+        }
+    }
+    .mask-wrapper{
+        overflow: hidden;
+        width: 929px;
+        margin: 0 auto;
+        position: relative;
+        @include mq($until: desktop){
+            width: 696px;
+        }
+        @include mq($until: tablet){
+            width: 230px;
+        }
+    }
+    .caroufredsel_wrapper{
+        width: 932px !important;
+        margin: 0 0 0 -3px;
+        @include mq($until: desktop){
+            width: 699px !important;
+        }
+        @include mq($until: tablet){
+            width: 227px !important;
+        }
+    }
+    .slide{
+        width: 233px !important;
+        padding: 0 0 0 3px;
+    }
+    .img-holder{
+        position: relative;
+        margin: 0 0 5px;
+        img{
+            display: block;
+            width: 100%;
+            max-width: none;
+        }
+        .price{
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #fdb813;
+            color: #fff;
+            text-align: center;
+            border: solid #fff;
+            border-width:0 1px 1px 0;
+            padding: 0 5px;
+            min-width: 63px;
+            border-radius: 0 0 5px 0;
+            font-size: 14px;
+            line-height: 24px;
+        }
+    }
+    .btn-prev,
+    .btn-next{
+        position: absolute;
+        text-indent: -9999px;
+        overflow: hidden;
+        top: 51px;
+        left: 8px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent #0071ce transparent transparent;
+        &:hover{
+            border-color: transparent #343434 transparent transparent;
+        }
+        @include mq($until: desktop){
+            left: 0;
+        }
+    }
+    .btn-next{
+        border-width: 10px 0 10px 10px;
+        border-color: transparent transparent transparent #0071ce;
+        left: auto;
+        right: 8px;
+        &:hover{
+            border-color: transparent transparent transparent #343434;
+        }
+        @include mq($until: desktop){
+            left: auto;
+            right: 0;
+        }
+    }
+
+}
+
+.page-style2{
+    h2{
+        color: #0071ce;
+    }
+    h2,
+    .intro-posts,
+    .page-content{
+        a{
+            color: #0071ce;
+            &:hover{
+                color: $base-link-color;
+            }
+        }
+    }
+}
+.page-style3{
+    .intro-posts,
+    .page-content{
+        color: #5e5e5e;
+    }
+}

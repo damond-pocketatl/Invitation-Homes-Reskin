@@ -1,0 +1,75 @@
+<?php get_header(); ?>
+		<main id="main" role="main">
+			<h1>Watch Videos</h1>
+			<div id="twocolumns">
+				<div id="content">
+					<div class="c1"><?php 
+					while ( have_posts() ) : the_post(); $ytid = get_post_meta(get_the_id(), "_yt_id", true); ?>
+						<div class="video-box">
+								<div class="class="player"">
+                                <?php $videourl = get_field('video_link'); $videourl = "http://www.youtube.com/embed/{$ytid}?list=UUczFmNMZV4bGlQkPjKKW1dw";
+								if ($videourl == '') { } else { echo "<iframe width='720' height='405' src='" . $videourl . "' frameborder='0' allowfullscreen></iframe>";}?>
+                                </div>
+							<div class="description">
+								<h2><?php the_title(); ?></h2>
+								<p><?php the_content(); ?></p>
+                                <?php wp_link_pages(); ?>
+								<div class="btn-row">
+                                    <?php $transcript = get_field('video_transcript');
+								if ($transcript == '') { } else { echo "<a class=\"transcript-btn btn\">Show Transcript</a><div class=\"transcript\">" . $transcript . "</div>";}?>
+									<!-- social plugin container -->
+									<ul class="share-list">
+										<li><span class="btn-share st_facebook_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Facebook</span></li>
+										<li><span class="btn-share st_twitter_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Twitter</span></li>
+										<li><span class="btn-share st_pinterest_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Pinterest</span></li>
+										<li><span class="btn-share st_email_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Email</span></li>
+									</ul>
+								</div>
+							</div>
+						</div><?php
+						endwhile; ?> 
+						<div class="btn-row">
+							<a href="<?php echo get_permalink(video_page_id); ?>" class="btn-back">Back to Video Gallery</a>
+						</div>
+					</div>
+				</div>
+				<aside id="sidebar">
+					<div class="search-box">
+						<form method="get" action="<?php echo home_url(); ?>" class="search-form" >
+							<div class="form-main">
+								<div class="holder">
+									<input type="search" name="s" placeholder="Search Keywords">
+									<input type="hidden" name='post_type' value="video">
+									<input type="submit" value="Search">
+								</div>
+							</div>
+							<div class="check-holder">
+								<strong class="title">Video Categories:</strong>
+								<div class="row">									
+									<input type="checkbox" id="selectall">
+									<label for="selectall">View All</label>
+								</div><?php
+								$args = array('taxonomy' => 'video_category', 'hide_empty' => 0); 
+								$category = get_categories($args); 
+								 foreach ($category as $categories)
+								{ ?>
+									 <div class="row">
+										<input type="checkbox" name="selectedId" class="selectedId" value="<?php echo $category->term_id ?>" onclick="resetSelectAll();" id="<?php echo $category->term_id ?>"><?php echo $categories->cat_name; ?></input>
+									</div><?php
+								} ?>
+							</div>
+						</form>
+					</div>
+					<?php get_sidebar(); ?>
+				</aside>
+			</div>
+		</main>
+<script type="text/javascript">
+$('.transcript-btn').click(function () {
+	$(this).text(function(i, text){
+          return text === "Show Transcript" ? "Hide Transcript" : "Show Transcript";
+    })
+	$('.transcript').slideToggle("fast");
+});
+</script>
+<?php get_footer(); ?>

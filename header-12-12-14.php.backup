@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html <?php language_attributes(); ?>>
+	<head>
+		<meta charset="<?php bloginfo('charset'); ?>">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<title><?php wp_title(' | ', true, 'right'); ?><?php bloginfo('name'); ?></title>
+		<link rel="stylesheet" type="text/css" media="all" href="<?php echo get_template_directory_uri(); ?>/theme.css"  />
+		<link rel="stylesheet" type="text/css" media="all" href="<?php echo get_template_directory_uri(); ?>/style.css"  />
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+		<script src="<?=site_url()?>/wp-content/plugins/LayerSlider/static/js/layerslider.kreaturamedia.jquery.js?ver=5.1.1"></script>
+		<script type="text/javascript">
+			var pathInfo = {
+				base: '<?php echo get_template_directory_uri(); ?>/',
+				css: 'css/',
+				js: 'js/',
+				swf: 'swf/',
+			}
+		</script>
+        <!-- include jQuery library -->        		
+		<?php if ( is_singular() ) wp_enqueue_script( 'theme-comment-reply', get_template_directory_uri()."/js/comment-reply.js" ); ?>
+		<?php wp_deregister_script('jquery'); ?>
+		<?php wp_head(); ?>
+		<!-- include custom JavaScript -->
+		<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.main.js"></script>
+		<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+		<script type="text/javascript">
+			stLight.options({
+				publisher:'12345'
+			});
+		</script>
+		
+	<!-- Bing Webmaster tools validation -->
+	
+	<meta name="msvalidate.01" content="A0DE2998B118A1E7A63363010F8C8CC8" />
+	
+	<!-- End Bing Webmaster tools validation -->
+	
+	<!-- Lucky Orange real time analytics -->
+	
+	<script type='text/javascript'>
+		window.__wtw_lucky_site_id = 29105;
+ 
+                (function() {
+                                var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true;
+                                wa.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://w1') + '.livestatserver.com/w.js';
+                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);
+                  })();
+                </script>
+	
+	<!-- End Lucky Orange real time analytics -->
+		
+	<meta name="google-site-verification" content="hnCWd_WxgFLBvCzIF9wFJ8phBkcR0kmD-Ym9Bt6UMJY" />
+	<!--[if lt IE 9]><link rel="stylesheet" href="<?php bloginfo('template_directory'); ?>/css/ie8.css"><![endif]-->
+
+	<script src="<?php bloginfo('template_directory'); ?>/js/respond.min.js"></script>
+	
+	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	
+	<!-- Google Universal Analytics -->
+	
+	<script>
+
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+
+				ga('create', 'UA-35067868-1', 'auto');
+
+				ga('require', 'displayfeatures');
+
+				ga('send', 'pageview'); 
+
+	</script>	
+	
+	<!-- End Google Universal Analytics -->
+	<!-- RadiumOne code begin -->
+<script type="text/javascript">
+<!--
+document.write('<img src="'+("https:"==document.location.protocol?"https:":"http:")+"//rs.gwallet.com/r1/pixel/x15521"+"r"+Math.round(1E7*Math.random())+'" width="1" height="1" border="0" alt=""/>');
+//-->
+</script>
+<noscript>
+<img src="https://rs.gwallet.com/r1/pixel/x15521"/>
+</noscript>
+<!-- RadiumOne code end -->
+<!-- Undertone code -->
+<script type='text/javascript'>
+    var p=location.protocol=='https:'?'https:':'http:';
+    var r=Math.floor(Math.random()*999999);
+    document.write('<img src="' + p + '//ads.undertone.com/f?pid=48494&cb=' + r +'" alt="" style="display:none;" border="0" height="1" width="1" />');
+</script>
+<noscript>
+<img src="https://ads.undertone.com/f?pid=48494&cb=[timestamp]" style="display: none;" width="0" height="0" alt="" />
+</noscript>
+<!-- end Undertone code -->
+
+	</head>
+	<body <?php if(is_front_page()): body_class(array('page-style2' , 'page-style3')); else: body_class(); endif; ?>>
+		<div id="wrapper">
+			<div class="w1">
+				<header id="header">
+					<!-- page logo -->
+					<?php if( get_field('logo','option') ): ?>
+					<div class="logo-holder">
+						<div class="logo"><a href="<?php echo home_url(); ?>"><img src="<?php the_field('logo', 'option'); ?>" /></a></div>
+						<a href="#" class="nav-opener"><span>Open/close</span></a>
+					</div>
+					<?php endif; ?>
+					<div class="nav-drop">
+						<div class="nav-drop-holder">
+							<div class="tabset-holder">
+							<?php if(has_nav_menu('primary'))
+							wp_nav_menu( array('container' => false,
+							'theme_location' => 'primary',
+							'menu_id' => 'navigation',
+							'menu_class' => 'tabset',
+							'items_wrap' => '<ul class="%2$s">%3$s</ul>',
+							'depth' => '1',
+							'walker' => new Custom_Header_Nav_Menu_1 ) ); ?>
+
+							</div>
+							<style type='text/css'>
+								#tab1, #tab2 { display: none; }
+							</style>
+							<script type="text/javascript">
+								jQuery(document).ready(function($) {
+									<? if (!isset($_COOKIE['invitationhomes']) && !is_page(302891)) { ?>
+										$("#menu-item-302900").addClass('active');
+										$("#tab1").show();
+									<? } else { ?>
+										$("#menu-item-303026").addClass('active');
+										$("#tab2").show();
+									<? } ?>
+									
+									$("#menu-item-302900").click(function() {
+										$.get('/?deletecookie', function() {
+											window.location.href = "/";
+										});
+										return false;
+									});
+								
+									$("#location-form").submit(function() {
+										console.log($("#market-select").val());
+										window.location = $("#market-select").val();
+										return false;
+									});
+									$("#market-select").change(function() {
+										$("#location-form").submit();
+									});
+								});
+							</script>
+							<?
+								$args = array(
+									'post_type' => 'market',
+									'posts_per_page' => -1,
+								);
+								$markets = get_posts($args);
+							?>
+							<div class="location-holder">
+								<!-- search form -->
+								<form id="location-form" class="location-form" action="<?php echo home_url(); ?>" >
+									<fieldset>
+										<select id="market-select" name="s">
+											<option value="/choose-a-location/" class="hidden">Choose A Location</option>
+											<? foreach ($markets as $market) { $selected = ($market->ID == get_queried_object_id()) ? 'selected="selected"' : ''; ?>
+												<option value="<?=get_the_permalink($market->ID)?>" <?=$selected?>><?=$market->post_title?></option>
+											<? } ?>
+										</select>
+										<input type="submit" value="Search">
+									</fieldset>
+								</form>
+								<!-- tabs content holder -->
+								<div class="tab-content">
+									<?php if(has_nav_menu('primary'))
+									wp_nav_menu( array('container' => false,
+									'theme_location' => 'primary',
+									'menu_id' => 'navigation',
+									'menu_class' => 'tabset',
+									'items_wrap' => '%3$s',
+									'depth' => '2',
+									'walker' => new Custom_Header_Nav_Menu_2) ); ?>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- slideshow -->
+					<?php if(is_front_page() || is_page(array(302891,302889))):  ?>
+						<div class="slideshow">
+						<?php
+						if (!isset($_COOKIE['invitationhomes']) && !is_page(302891))
+						 	layerslider(2);
+						 else
+						 	layerslider(1);
+						?>
+						<!--
+	<div class="info">
+								<img src="<?php echo get_template_directory_uri(); ?>/images/logo-alt.svg" width="150" height="76" alt="INVITATION HOMES" onerror="this.onerror=null; this.src='<?php echo get_template_directory_uri(); ?>/images/logo-alt.png'">
+								<p>We offer <strong>high-quality</strong> <br>rental homes in <br><strong>desirable neighborhoods</strong> across America.</p>
+							</div>
+							<div class="slideset">
+								<div class="slide">
+									<img src="<?php echo get_template_directory_uri(); ?>/images/img1.jpg" alt="image description">
+								</div>
+								<div class="slide">
+									<img src="<?php echo get_template_directory_uri(); ?>/images/img1.jpg" alt="image description">
+								</div>
+								<div class="slide">
+									<img src="<?php echo get_template_directory_uri(); ?>/images/img1.jpg" alt="image description">
+								</div>
+								<div class="slide">
+									<img src="<?php echo get_template_directory_uri(); ?>/images/img1.jpg" alt="image description">
+								</div>
+								<div class="slide">
+									<img src="<?php echo get_template_directory_uri(); ?>/images/img1.jpg" alt="image description">
+								</div>
+							</div>
+							<div class="pagination">
+								<ul>
+									<li class="active"><a href="#">1</a></li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#">5</a></li>
+								</ul>
+
+							</div>
+							-->
+						</div>
+					<?php endif; ?>
+				</header>

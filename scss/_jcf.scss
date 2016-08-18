@@ -1,0 +1,140 @@
+/* ---------------------------------------------------------
+   2. Custom form styles
+   ---------------------------------------------------------*/
+
+/* custom checkbox styles */
+.jcf-checkbox {
+	float: left;
+	overflow: hidden;
+	cursor: default;
+	margin: 0 5px 0 0;
+	height: 17px;
+	width: 15px;
+	background: url(images/sprite.png) no-repeat -28px 2px;
+	position: relative;
+}
+.jcf-checkbox input[type="checkbox"] {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	margin: 0;
+	left: 0;
+	top: 0;
+}
+.jcf-checkbox.jcf-checked {background-position: -28px -18px;}
+/* custom select styles */
+.jcf-select {
+	float: left;
+	position: relative;
+	background: #fff;
+	min-width: 150px;
+	height: 34px;
+	border-radius: 4px;
+	border: 1px solid $base-input-border-color;
+}
+.jcf-select select {
+	z-index: 1;
+	left: 0;
+	top: 0;
+}
+.jcf-select .jcf-select-text {
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	cursor: default;
+	display: block;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 17px;
+	margin: 8px 28px 0 11px;
+	color: #0554a2;
+}
+.jcf-select .jcf-select-opener {
+	position: absolute;
+	top: 50%;
+	right: 6px;
+	margin: -3px 0 0;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 8px 8px 0 8px;
+	border-color: #0071ce transparent transparent transparent;
+}
+body > .jcf-select-drop {
+	position: absolute;
+	margin: 5px 0 0;
+	padding: 0 0 0 1px;
+	z-index: 9999;
+}
+body > .jcf-select-drop.jcf-drop-flipped {
+	margin: 1px 0 0;
+}
+/* select options styles */
+.jcf-list {
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+	background: #0071ce;
+	line-height: 14px;
+	font-size: 12px;
+	width: 100%;
+	border-radius:6px;
+}
+.jcf-list .jcf-list-content {
+	vertical-align: top;
+	display: inline-block;
+	overflow: auto;
+	width: 100%;
+	max-height: 400px !important;
+}
+.jcf-list ul {
+	padding: 3px 0 5px;
+	margin: 0;
+}
+.jcf-list ul li {
+	overflow: hidden;
+	display: block;
+	padding: 0;
+	&:after{
+        display: none;
+    }
+}
+.jcf-list .jcf-overflow {
+	overflow: auto;
+}
+.jcf-list .jcf-option {
+	white-space: nowrap;
+	overflow: hidden;
+	cursor: default;
+	display: block;
+	padding: 7px 9px 7px;
+	color: #656565;
+	height: 1%;
+	color: #fff;
+}
+.jcf-list .jcf-option-hidden{
+	display: none;
+}
+.jcf-list .jcf-disabled {
+	background: #fff !important;
+	color: #aaa !important;
+}
+.jcf-select-drop .jcf-hover,
+.jcf-list-box .jcf-selected {
+	background: #fdcb68;
+	color: #0c295f;
+}
+.jcf-list .jcf-optgroup-caption {
+	white-space: nowrap;
+	font-weight: bold;
+	display: block;
+	padding: 5px 9px;
+	cursor: default;
+	color: #000;
+}
+.jcf-list .jcf-optgroup .jcf-option {
+	padding-left: 30px;
+}
+/* common custom form elements styles */
+.jcf-disabled {background: #ddd !important;}

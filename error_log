@@ -1,0 +1,1 @@
+[04-Apr-2016 20:39:48 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/ihydodev/public_html/wp-content/themes/InvitationHomes/index.php on line 1

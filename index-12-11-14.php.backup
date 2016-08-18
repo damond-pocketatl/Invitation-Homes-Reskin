@@ -1,0 +1,203 @@
+<?php 
+get_header();
+?>
+<!-- contain main informative part of the site -->
+<main id="main" role="main">
+	<h1>Blog</h1>
+	<div id="twocolumns">
+		<!-- contain the main content of the page -->
+		<div id="content">
+			<div class="c1">
+				<!-- single post -->
+				<?php
+					$arrayName = array('category_name' => 'features', 'posts_per_page' => '1', 'orderby' => 'date', 'order' => 'desc' ); 
+					$posts = query_posts($arrayName);				
+					if ( have_posts()) : 
+						while ( have_posts() ) : the_post(); $featured = get_the_id(); ?>
+						<div class="post single-post single-post-alt">
+							<div class="post-img">
+									<strong class="note">Featured Article</strong><?php 
+								if(has_post_thumbnail()) { ?>
+									
+									<a href="<?=the_permalink();?>">
+									<? the_post_thumbnail('full'); ?>
+									</a><?
+								} ?>
+							</div>
+							<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+								<?php the_excerpt(); ?>							
+							<div class="meta"><?php  	
+									$postdatetime =  get_the_date('l, F d Y | g:i A');
+									$postdate =  get_the_date('Y-m-d');
+									$posttime =  get_the_date('G:i');
+									$timedate =  $postdate.'T'.$posttime;?>
+								<time datetime="<?php echo $timedate;?>"><?php echo $postdatetime.' EST'; ?> | Filed in <?php the_category(', ') ?></time>
+								<!-- social plugin container -->
+								<ul class="share-list">
+									<li><span class="btn-share st_facebook_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Facebook</span></li>
+									<li><span class="btn-share st_twitter_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Twitter</span></li>
+									<li><span class="btn-share st_pinterest_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Pinterest</span></li>
+									<li><span class="btn-share st_email_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Email</span></li>
+								</ul>
+							</div>
+						</div>	<?php
+						endwhile;				
+					endif; 
+					wp_reset_query();
+					$pagenum = (isset($_GET['offset'])) ? $_GET['offset'] : 1;
+					$offset = ($pagenum-1) * 5;
+					if (isset($_POST['selectedId']) && is_array($_POST['selectedId'])) {
+						$query = 'posts_per_page=5&offset='.$offset.'&hide_empty=1&post__not_in='.$featured.'&cat='.implode(",", $_POST['selectedId']);
+						$args = array(
+							'posts_per_page' => 5,
+							'offset' => $offset,
+							'hide_empty' => 1,
+							'post__not_in' => array($featured),
+							'cat' => implode(",", $_POST['selectedId'])
+						);
+						if (isset($_POST['searchval']) && $_POST['searchval'] != "Search Keywords") {
+							$args = array();
+							$args['s'] .= $_POST['searchval'];
+							$args['post_type'] = array('post', 'video');
+						}
+						$posts = query_posts($args);
+					} else {
+						$query = 'posts_per_page=5&offset='.$offset.'&hide_empty=1&post__not_in='.$featured.'&cat=11,7,4,12,8,6,10,2,3,9';
+						$args = array(
+							'posts_per_page' => 5,
+							'offset' => $offset,
+							'hide_empty' => 1,
+							'post__not_in' => array($featured),
+							//'cat' => "11,7,4,12,8,6,10,2,3,9"
+						);
+						$posts = query_posts($args);
+					}
+					global $wp_query;
+					$max_pages = ceil($wp_query->found_posts / 5);
+					 ?> 
+					<!-- posts list -->
+				<?php if (have_posts()) : ?>
+				<ul class="posts-list"><?php 
+					while (have_posts()) : the_post(); ?>				
+						<li><?php
+						if(has_post_thumbnail()) { ?>  
+							<div class="img-holder blog-thumbnail">
+								<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('full');  ?></a>
+							</div><?php 
+						} else if ($post->post_type == "video") {
+							$ytid = get_post_meta(get_the_id(), "_yt_id", true);
+							?>
+							<div class="img-holder">
+								<a href="<?php the_permalink(); ?>"><img src="http://img.youtube.com/vi/<?=$ytid?>/mqdefault.jpg" /></a>
+							</div><?
+						}
+						?>	
+							<div class="description">
+								<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2><?php 
+								the_excerpt(); ?>
+								<div class="panel">	<?php  	
+										$postdatetime =  get_the_date('l, F d Y | g:i A');
+										$postdate =  get_the_date('Y-m-d');
+										$posttime =  get_the_date('G:i');
+										$timedate =  $postdate.'T'.$posttime;?>
+									<time datetime="<?php echo $timedate;?>"><?php echo $postdatetime.' EST'; ?> | Filed in <?php the_category(', ') ?></time>
+									<!-- social plugin container -->
+									<ul class="share-list">
+										<li><span class="btn-share st_facebook_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Facebook</span></li>
+										<li><span class="btn-share st_twitter_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Twitter</span></li>
+										<li><span class="btn-share st_pinterest_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Pinterest</span></li>
+										<li><span class="btn-share st_email_custom" st_title="Custom title for the share" st_url="<?php the_permalink(); ?>">Email</span></li>
+									</ul>
+								</div>
+							</div>
+						</li><?php
+					endwhile;?>	 	
+				</ul>
+				<?
+					
+				?>
+                <script type="text/javascript">
+							jQuery(document).ready(function($) {
+								var timer;
+								$(".wp-pagenavi a.page, .wp-pagenavi .nextpostslink").click(function() {
+									$("#search-form").attr('action', $(this).attr('href')).submit();
+									return false;
+								});
+								$("#searchval").focus(function() {
+									if ($(this).val() == "Search Keywords")
+										$(this).val('');
+								}).blur(function() {
+									if ($(this).val() == "")
+										$(this).val('Search Keywords');
+								});
+								$(".selectedId").click(function() {
+									clearTimeout(timer);
+									$("#search-form .loading").show();
+									timer = setTimeout('jQuery("#search-form").submit()', 1500);
+								});
+							});
+						</script>
+				<div class="wp-pagenavi">
+					<span class="pages">Page <?=$pagenum?> of <?=$max_pages?></span>
+					<?
+					for ($i = 1; $i <= $max_pages; $i++) { 
+						if ($i == $pagenum) {
+							?><span class="current"><?=$i?></span><?
+						} else {
+							?><a class="page larger" href="<?=add_query_arg(array('offset'=>$i))?>"><?=$i?></a><?
+						}
+					} ?>
+					<? if ($pagenum < $max_pages) { ?>
+					<a class="nextpostslink" rel="next" href="<?=add_query_arg(array('offset'=>($pagenum+1)))?>">»</a>
+					<? } ?>
+				</div>
+				<?php
+				//get_template_part('blocks/pager');
+				else:
+				get_template_part('blocks/not_found');
+				endif; ?> 
+			</div>
+		</div>
+		<!-- contain sidebar of the page -->
+		<? $searchval = (isset($_POST['searchval']) && $_POST['searchval'] != "") ? $_POST['searchval'] : 'Search Keywords'; ?>
+		<aside id="sidebar">
+			<div class="search-box">
+				   <form method="POST" id="search-form" class="search-form" >
+							<div class="form-main">
+								<div class="holder">
+									<input type="search" name="searchval" id="searchval" value="<?=$searchval?>">
+									<input type="submit" value="Search">
+								</div>
+							</div>
+					<div class="check-holder">
+						<strong class="title">Blog Categories:</strong>
+						<div class="row">
+							<input type="checkbox" <? echo (!isset($_POST['selectedId'])) ? 'checked="checked"' : ''; ?> id="selectall">
+							<label for="selectall">View All</label>
+						</div><?php
+						$args = array(
+							
+							'order' => 'ASC',
+							
+							'exclude' => '1,5',
+							'hide_empty' => 1,
+						);
+						 $categories = get_categories($args);
+						 foreach ($categories as $category)
+						{  ?>
+							 <div class="row">
+								<input type="checkbox" name="selectedId[]" class="selectedId" value="<?php echo $category->term_id ?>" <? echo ((isset($_POST['selectedId']) && in_array($category->term_id, $_POST['selectedId'])) || !isset($_POST['selectedId'])) ? 'checked="checked"' : ''; ?> id="<?php echo $category->term_id ?>"><?php echo $category->cat_name; ?></input>
+								
+							</div><?php
+						} ?>
+						<img src="<?=get_template_directory_uri()?>/images/loading.gif" style="display: none" class="loading" />
+					</div>
+					
+				</form>
+			</div>
+			<?php get_sidebar(); ?>
+		</aside>
+	</div><?php
+	get_template_part('blocks/inner-boxes');?>
+</main>
+<?php get_footer(); ?>
