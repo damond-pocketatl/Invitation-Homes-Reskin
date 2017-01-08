@@ -7,7 +7,8 @@ jQuery(function(){
 	initCustomForms();
 	initLightbox();
 	initInputs();
-	initSameHeight();
+	//initSameHeight();
+
 });
 
 function initSlickCarousel(){
@@ -215,14 +216,7 @@ function initInputs() {
 	});
 }
 
-// align blocks height
-function initSameHeight() {
-	jQuery('.map-area').sameHeight({
-		elements: '.map .holder, .aside',
-		flexible: true,
-		multiLine: true
-	});
-}
+
 
 /*
  * Responsive Layout helper
@@ -633,6 +627,16 @@ ResponsiveHelper = (function($){
 		});
 	};
 
+	// align blocks height
+	function initSameHeight() {
+
+		jQuery('.map-area').sameHeight({
+			elements: '.map .holder, .aside',
+			flexible: true,
+			multiLine: true
+		});
+	} // must use the sameHeight call after the main plugin function above
+
 	// detect css min-height support
 	var supportMinHeight = typeof document.documentElement.style.maxHeight !== 'undefined';
 
@@ -731,7 +735,7 @@ jQuery.onFontResize = (function($) {
 			doc.write('<scri' + 'pt>window.onload = function(){var em = parent.jQuery("#' + randomID + '")[0];window.onresize = function(){if(parent.jQuery.onFontResize){parent.jQuery.onFontResize.trigger(em.offsetWidth / 100);}}};</scri' + 'pt>');
 			doc.close();
 		}
-		jQuery.onFontResize.initialSize = resizeFrame[0].offsetWidth / 100;
+		$.onFontResize.initialSize = resizeFrame[0].offsetWidth / 100;
 	});
 	return {
 		// public method, so it can be called from within the iframe
