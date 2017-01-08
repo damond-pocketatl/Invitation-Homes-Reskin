@@ -8,26 +8,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta property="fb:app_id" content="198425630496954"/>
 <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/images/favicon.png" type="image/x-icon">
-<?php /*
-<script type="application/ld+json">
+
+ <script type="application/ld+json">
     {
       "@context": "http://schema.org",
       "@type": "Organization",
 	  "name" : "Invitation Homes",
-	  "telephone" : "855-684-7368",
+	  "telephone" : "800-339-7368",
 	  "email" : "info@IHRent.com",
 	  "address" : {
 		"@type" : "PostalAddress",
-		"streetAddress" : "901 Main Street, Suite #4700",
+		"streetAddress" : "1717 Main Street, Suite 2000",
 		"addressLocality" : "Dallas, TX",
-		"postalCode" : "75202"
+		"postalCode" : "75201"
 	  },
-      "url": "http://invitationhomes.com",
-      "logo": "http://invitationhomes.com/wp-content/uploads/2015/04/logo.png"
+      "url": "http://www.invitationhomes.com",
+      "logo": "http://www.invitationhomes.com/wp-content/uploads/2015/04/logo.png",
+      "sameAs": ["https://www.facebook.com/InvitationHomesWeb", "https://twitter.com/InvitationHomes","https://www.youtube.com/user/InvitationHomes","https://plus.google.com/+Invitationhomes","https://www.pinterest.com/invitationhomes/"]
     }
     </script>
 
-*/?>
 <!--<link rel="icon" href="/favicon.ico" type="image/x-icon">-->
 <title><?php
 global $post;
@@ -52,42 +52,40 @@ Information on the Home Rental Lifestyle | Invitation Homes Blog
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.main.js"></script>
 <!-- Bing Webmaster tools validation -->
 <meta name="msvalidate.01" content="A0DE2998B118A1E7A63363010F8C8CC8" />
-<!-- Facebook Pixel Code -->
-<?php global $post; if( $post->ID == 302871 ) { ?>
-<!-- Facebook Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js';);
-
-fbq('init', '1598154653771869');
-fbq('track', "PageView");</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1598154653771869&ev=PageView&noscript=1";
-/></noscript>
+<!-- Facebook Pixels-->
+<?php if ( get_post_type( get_the_ID() ) == 'market' ) { ?>
+    <!-- Facebook Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    
+    <?php global $post; if( $post->ID == 302871 ) { ?>
+		fbq('init', '1598154653771869');
+		fbq('track', "PageView");</script>
+		<noscript><img height="1" width="1" style="display:none"
+		src="https://www.facebook.com/tr?id=1598154653771869&ev=PageView&noscript=1";
+		/></noscript>
+    <?php } else if( $post->ID == 302876 ) { ?>
+    <!-- pixel for miami -->
+        fbq('init', '1598154653771869');
+        fbq('track', "PageView");</script>
+        <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=1598154653771869&ev=PageView&noscript=1"
+        /></noscript>
+    <?php } else { ?>
+    <!-- pixel for all other markets -->
+        fbq('init', '627501077422235');
+        fbq('track', "PageView");</script>
+        <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=627501077422235&ev=PageView&noscript=1"
+        /></noscript>
+    <?php } ?>
+    <!-- End Facebook Pixel Code -->
 <?php } ?>
-<!-- End Facebook Pixel Code -->
-
-<!-- pixel for miami -->
-<?php global $post; if( $post->ID == 302876 ) { ?>
-<!-- Facebook Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-fbq('init', '1598154653771869');
-fbq('track', "PageView");</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1598154653771869&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
-<?php } ?>
-<!-- end miami pixel -->
+<!-- end Facebook Pixel Market btn click -->
 <script type="text/javascript">var switchTo5x=true;</script>
 <!-- <script type="text/javascript">stLight.options({publisher: "78cd4a1d-f23e-4f11-8728-7665de7acf89", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script> -->
 <?php
@@ -123,18 +121,14 @@ $excerpt = apply_filters('get_the_excerpt', $single->post_excerpt);*/
 
 } else {
 
-echo '<meta property="og:image" content="http://invitationhomes.com/wp-content/uploads/2015/04/IHogimage.jpg"/>';
+echo '<meta property="og:image" content="http://www.invitationhomes.com/wp-content/uploads/2016/09/Open-Graph-Tags.jpg"/>';
 echo '<meta property="og:image:type" content="image/jpeg">';
-echo '<meta property="og:image:width" content="600">';
-echo '<meta property="og:image:height" content="600">';
-echo '<meta property="og:image" content="http://invitationhomes.com/wp-content/uploads/2015/04/IHogimage2.jpg"/>';
+echo '<meta property="og:image:width" content="353">';
+echo '<meta property="og:image:height" content="352">';
+echo '<meta property="og:image" content="http://www.invitationhomes.com/wp-content/uploads/2016/09/Open-Graph-Tags1.jpg"/>';
 echo '<meta property="og:image:type" content="image/jpeg">';
-echo '<meta property="og:image:width" content="600">';
-echo '<meta property="og:image:height" content="600">';
-echo '<meta property="og:image" content="http://invitationhomes.com/wp-content/uploads/2015/04/IHogimage3.jpg"/>';
-echo '<meta property="og:image:type" content="image/jpeg">';
-echo '<meta property="og:image:width" content="600">';
-echo '<meta property="og:image:height" content="600">';
+echo '<meta property="og:image:width" content="332">';
+echo '<meta property="og:image:height" content="328">';
 }
 ?>
 
@@ -169,19 +163,86 @@ href="http://invitationhomes.com/events/?ical=1" />
 }
 wp_head();
  ?>
+ 
+ <! ----- start Versatag -->
+ 
+ <script>
+var versaTag = {};
+versaTag.id = "5719";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=5719&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+ 
+ 
+<!----- End versatag ---> 
+ 
+<!-- Google Universal Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-35067868-1', 'auto');
+ga('require', 'displayfeatures');
+ga('send', 'pageview');
+</script>
+<!-- End Google Universal Analytics -->
+
 </head>
 <body <?php if(is_front_page()): body_class(array('page-style2' , 'page-style3')); else: body_class(); endif; ?>>
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 978928790;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/978928790/?value=0&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
 
 <!-- Notification bar -->
+
 
 
 <!--
 <div id="wnb-bar">
 	<div id="notification">
-	We are currently experiencing technical difficulties with the online application on the Invitation Homes website. We apologize for the inconvenience and are working diligently to resolve this issue. If you encounter an error message or are unable to complete your application, please contact your Invitation Homes leasing agent directly or call the <a href="http://invitationhomes.com/contact/">local office</a>. We appreciate your interest in an Invitation Home and will do our very best to expedite your application. Thank you!
-	</div>
+	The Invitation Homes is currently experiencing technical difficulties with the application process. Applicants may experience 
+unexpected errors. Please check back later or contact your <a href="http://www.invitationhomes.com/contact/">local office</a>. Thank you for your patience.	</div>
 </div>
 -->
+
 
 
 
@@ -193,7 +254,7 @@ wp_head();
 					<!-- page logo -->
 					<?php if( get_field('logo','option') ): ?>
 					<div class="logo-holder">
-						<div itemscope itemtype="http://schema.org/Organization" class="logo"><a itemprop="url" href="<?php echo home_url(); ?>"><img alt="Homes for Rent from Invitation Homes" itemprop="logo" src="<?php the_field('logo', 'option'); ?>"  /></a></div>
+						<div class="logo"><a href="<?php echo home_url(); ?>"><img alt="Homes for Rent from Invitation Homes" src="<?php the_field('logo', 'option'); ?>"  /></a></div>
 						<a href="#" class="nav-opener"><span>Open/close</span></a>
 					</div>
 					<?php endif; ?>
@@ -214,7 +275,9 @@ wp_head();
 								#tab1, #tab2 { display: none; }
 							</style>
 							<script type="text/javascript">
+
 								jQuery(document).ready(function($) {
+									/*
 									<? if (!isset($_COOKIE['invitationhomes']) && !is_page(302891)) { ?>
 										$("#menu-item-302900").addClass('active');
 										$("#tab1").show();
@@ -228,7 +291,11 @@ wp_head();
 											window.location.href = "/";
 										});
 										return false;
-									});
+										*/
+								$("ul.tabset").find(".active").addClass("current");
+								$("ul.tabset").find(".active").addClass("current");
+								$("ul.tabset").find(".current").parent().addClass('active');
+									
 									$("#location-form").submit(function() {
 										//console.log($("#market-select").val());
 										window.location = $("#market-select").val();
@@ -236,7 +303,8 @@ wp_head();
 									});
 									$("#market-select").change(function() {
 										$("#location-form").submit();
-									});
+									;
+								});
 								});
 							</script>
 							<?
@@ -261,6 +329,14 @@ wp_head();
 									</fieldset>
 								</form>
 								<!-- tabs content holder -->
+                                <?php  
+								if(is_page( 302889 )) { ?>                                
+                                <style type='text/css'>#tab1 { display: block !important; }</style>
+								<?php } ?>
+                                <?php  
+								if(is_page( 302891 )) { ?>                                
+                                <style type='text/css'>#tab2:nth-child(2){ display: block !important; }</style>
+								<?php } ?>
 								<div class="tab-content">
 									<?php if(has_nav_menu('primary'))
 									wp_nav_menu( array('container' => false,
@@ -285,13 +361,13 @@ wp_head();
 						 */ ?>
 
 
-					<?php
-
-						if (!isset($_COOKIE['invitationhomes']) && !is_page(302891)) { // future
-						 	if ( !wp_is_mobile() ) {layerslider(2);} else { layerslider(4);}
-						 } else { //current
-						 	if ( !wp_is_mobile()) { layerslider(1); } else { layerslider(5);}
-						 }
+						<?php
+						
+						if (is_page(302889)) { // future
+							if ( !wp_is_mobile() ) {layerslider(2);} else { layerslider(4);}
+						 } else if (is_page(302891)) { //current
+							if ( !wp_is_mobile()) { layerslider(1); } else { layerslider(5);}
+						}
 						?>
 						</div>
 					<?php endif; ?>

@@ -98,17 +98,7 @@ window.__wtw_lucky_site_id = 29105;
 </script>
 <script src="<?php bloginfo('template_directory'); ?>/js/respond.min.js"></script>
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<!-- Google Universal Analytics -->
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-35067868-1', 'auto');
-ga('require', 'displayfeatures');
-ga('send', 'pageview');
-</script>
-<!-- End Google Universal Analytics -->
+
 
 <!-- Undertone code -->
 <script type='text/javascript'>
@@ -139,6 +129,24 @@ if ( $condition )  {
 </noscript>
 <script>
 jQuery(document).ready(function(){
+	jQuery("ul.tabset > li").each(function() {
+	if(jQuery(this).find(".menu-item").hasClass("menu-item-has-children")) { 
+		jQuery(this).append('<span id="edit_slide_up_down" class="fa fa-caret-down" style="cursor:pointer; float:right; width:0px;"></span>');
+	}
+});
+jQuery( 'ul.tabset > li > span#edit_slide_up_down' ).on( 'click', function () {
+jQuery(this).parent().find("ul").css('position','inherit');
+if( jQuery(this).attr('class') == 'fa fa-caret-up') 
+{
+jQuery(this).attr("class","fa fa-caret-down");
+jQuery(this).parent().find("ul").css('display','none');
+} else if(jQuery(this).attr('class') == 'fa fa-caret-down' )
+{
+  jQuery(this).attr("class","fa fa-caret-up");
+ jQuery(this).parent().find("ul").css('display','block');	
+}
+});
+/*
 jQuery("li#menu-item-302900").append('<span id="edit_slide_up_down" class="fa fa-caret-down" style="cursor:pointer; float:right; width:0px;"></span>');
 jQuery("li#menu-item-303026").append('<span id="edit_slide_up_down" class="fa fa-caret-down" style="cursor:pointer; float:right; width:0px;"></span>');	
 jQuery( 'li#menu-item-302900 span#edit_slide_up_down' ).on( 'click', function () {
@@ -165,6 +173,7 @@ jQuery("li#menu-item-303026 ul").css('display','none');
   jQuery("li#menu-item-303026 ul").css('display','block');	
 }
 });
+*/
 //jQuery( 'li#menu-item-303026' ).on( 'click', function () {
 //jQuery("li#menu-item-303026 ul").css('position','inherit');
 //jQuery("li#menu-item-303026 ul").slideToggle();
@@ -189,5 +198,18 @@ jQuery( '.target' ).click(function() {
 */
 		
 	});
+</script>
+<?php $getCurrentPage = get_post_field( 'post_name', get_post() );?>
+<script>
+//market page button tracking FB
+function marketButtonClick() {
+  fbq('trackCustom', 'IHForRent', {
+    market_name: '<?php echo $getCurrentPage; ?>',
+});
+};
+jQuery( document ).ready(function() {
+	jQuery('.adv_search').find('#gform_submit_button_1').addClass('targetButton');
+	jQuery( '.targetButton' ).attr('onClick',  "marketButtonClick()" );	
+});
 </script>
 </body></html>

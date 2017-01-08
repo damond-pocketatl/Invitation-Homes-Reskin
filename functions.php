@@ -22,7 +22,7 @@ add_filter('the_category','the_category_filter',10,2);
 
 /* Cookie information */
 
-if (isset($_GET['deletecookie'])) setcookie('invitationhomes', '', time() - 3600);
+// if (isset($_GET['deletecookie'])) setcookie('invitationhomes', '', time() - 3600);
 //if (isset($_GET['setcookie'])) setcookie('invitationhomes', 'visited', strtotime("+6 months"), "/");
 
 /*
@@ -37,6 +37,7 @@ function visitCookie() {
 }
 add_action('wp_head', 'visitCookie');
 */
+/*
 function IH_add_first_time_visit_cachekey($key) {
 
 	if(!isset($_COOKIE['invitationhomes']) && $_COOKIE['invitationhomes'] == "visited") {
@@ -45,7 +46,9 @@ function IH_add_first_time_visit_cachekey($key) {
 
 	return $key;
 }
+*/
 //add_cacheaction( 'wp_cache_key', 'IH_add_first_time_visit_cachekey' );
+/*
 
 function visitCookie() {
 	if (isset($_GET['deletecookie'])) return;
@@ -60,6 +63,7 @@ function visitCookie() {
 	if (isset($_GET['cookie'])) print_r($_COOKIE);
 }
 add_action('wp_head', 'visitCookie');
+*/
 
 //Staging restrictions
 if (file_exists(sys_get_temp_dir().'/staging-restrictions.php')) {
@@ -839,7 +843,7 @@ function property_register() {
     $args = array(
         'labels' => $labels,
         'public' => true,
-		'has_archive' => true,
+		'has_archive' => false,
         'publicly_queryable' => true,
         'show_ui' => true,
         'query_var' => true,
@@ -1321,8 +1325,9 @@ function ih_breadcrumb (array $options = array() ) {
 	'delimiter' => '|', // delimiter between crumbs
 	'homePageText' => 'Home', // text for the 'Home' link
 	'showCurrent' => 1, // 1 - show current post/page title in breadcrumbs, 0 - don't show
-	'beforeTag' => '<span class="current">', // tag before the current breadcrumb
-	'afterTag' => '</span>', // tag after the current crumb
+	'beforeTag' => '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="remove_deco" itemprop="item"><span itemprop="name" class="current">', // tag before the current breadcrumb
+	'afterTag' => '</span></a><meta itemprop="position" content="2" /></li>', // tag after the current crumb
+	'afterTag3' => '</span></a><meta itemprop="position" content="3" /></li>',
 	'showTitle'=> 1 // showing post/page title or slug if title to show then 1
    ), $options);
 
@@ -1335,6 +1340,7 @@ function ih_breadcrumb (array $options = array() ) {
 	$showCurrent = $options['showCurrent'];
 	$beforeTag = $options['beforeTag'];
 	$afterTag = $options['afterTag'];
+	$afterTag3 = $options['afterTag3'];
 	$showTitle =  $options['showTitle'];
 
 	global $post;
@@ -1366,7 +1372,7 @@ function ih_breadcrumb (array $options = array() ) {
 
 	$queried_object = $wp_query->get_queried_object();
 
-	echo '<div id="'.$crumbId.'" class="'.$crumbClass.'" >'.$beginningText;
+	echo '<div id="'.$crumbId.'" class="'.$crumbClass.'" ><ol itemscope itemtype="http://schema.org/BreadcrumbList">'.$beginningText;
 
 	if (is_home() || is_front_page()) {
 
@@ -1376,7 +1382,8 @@ function ih_breadcrumb (array $options = array() ) {
 
 	} else {
 
-	  echo '<a href="' . $homeLink . '">' . $homePageText . '</a> ' . $delimiter . ' ';
+	  echo '<li itemprop="itemListElement" itemscope
+ itemtype="http://schema.org/ListItem"><a itemprop="item" href="' . $homeLink . '"><span itemprop="name">' . $homePageText . '</span></a> <span itemprop="position" content="1">' . $delimiter . ' </span><meta itemprop="position" content="1" /></li>';
 
 	  if ( is_category() ) {
 
@@ -1389,9 +1396,10 @@ function ih_breadcrumb (array $options = array() ) {
 	  elseif(isset($_GET['tribe_venues']) && $_GET['tribe_venues']!=""&& $_GET['tribe_venues']>0)
 	  {
 		$vid = $_GET['tribe_venues'];
-	  	echo '<a href="'.get_option('site_url').'/events/">Upcoming Events</a> ' ;
+	  	echo '<li itemprop="itemListElement" itemscope
+ itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.get_option('site_url').'/events/"><span itemprop="name">Upcoming Events</span></a> ' ;
 		$all_venue =  get_ih_venue_values();
-		echo $delimiter.' ' ;
+		echo '<span itemprop="position" content="1">'.delimiter.'</span></li> ' ;
 		if(isset($queried_object->name) && $queried_object->name!="")
 		echo  $queried_object->name.' &raquo; ';
 		if(isset($all_venue[$vid]) && $all_venue[$vid]!="")
@@ -1409,12 +1417,13 @@ function ih_breadcrumb (array $options = array() ) {
 			  $new_parent = get_term_by( 'id', $parent, get_query_var( 'taxonomy' ) );
 			  $parent = $new_parent->parent;
 
+
 		  }
 		  if ( ! empty( $parents ) ) {
 			  $parents = array_reverse( $parents );
 			  foreach ( $parents as $parent ) {
 				  $item = get_term_by( 'id', $parent, get_query_var( 'taxonomy' ));
-				  echo   '<a href="' . get_term_link( $item->slug, get_query_var( 'taxonomy' ) ) . '">' . $item->name . '</a>'  . $delimiter;
+				  echo   '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="' . get_term_link( $item->slug, get_query_var( 'taxonomy' ) ) . '"><span itemprop="name">' . $item->name . '</span></a><span itemprop="position" content="1">'  . $delimiter.'</span></li>';
 			  }
 		  }
 
@@ -1423,7 +1432,7 @@ function ih_breadcrumb (array $options = array() ) {
 		  foreach ( $queried_object as $taxonomy_slug => $taxonomy ){
 		     if($taxonomy_slug == 'taxonomy' && $taxonomy == 'tribe_events_cat') {
 
-			 echo '<a href="'.site_url().'/events">' ."Upcoming Events". '</a>';
+			 echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.site_url().'/events"><span itemprop="name">' ."Upcoming Events". '</span></a></li>';
 			 }
 		  }
 		          //$post_type = wp_get_post_terms($post->ID, 'video_category', array("fields" => "all"));
@@ -1438,23 +1447,23 @@ function ih_breadcrumb (array $options = array() ) {
 					  if($taxonomy_slug == 'video_category') {
 					  $check = get_term_link( $term, $taxonomy_slug );
 
-					  echo '<a href="'.site_url().'/video-gallery">' . "Video Gallery" . '</a>';
+					  echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.site_url().'/video-gallery"><span itemprop="name">' . "Video Gallery" . '</span></a><span itemprop="position" content="1">|</span><meta itemprop="position" content="2" /></li>';
 					    } else if($taxonomy_slug == 'blog-categories') {
-						 echo '<a href="'.site_url().'/blog">' ."Blog". '</a>';
+						 echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.site_url().'/blog"><span itemprop="name">' ."Blog". '</span></a><span itemprop="position" content="1">|</span><meta itemprop="position" content="2" /></li>';
 					} else if($taxonomy_slug == 'news-categories') {
-						 echo '<a href="'.site_url().'/news">' ."News". '</a>';
+						 echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.site_url().'/news"><span itemprop="name">' ."News". '</span></a><span itemprop="position" content="1">|</span><meta itemprop="position" content="2" /></li>';
 					} else if($taxonomy_slug == 'view') {
-						 echo '<a href="'.site_url().'/news">' ."View". '</a>';
+						 echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.site_url().'/news"><span itemprop="name">' ."View". '</span></a><span itemprop="position" content="1">|</span><meta itemprop="position" content="2" /></li>';
 					}  else if($taxonomy_slug == 'wpm-testimonial-category') {
-						 echo '<a href="'.site_url().'/reviews">' ."Reviews". '</a>';
+						 echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.site_url().'/reviews"><span itemprop="name">' ."Reviews". '</span></a><span itemprop="position" content="1">|</span><meta itemprop="position" content="2" /></li>';
 					} else if($taxonomy_slug == 'team-categories') {
-						 echo '<a href="'.site_url().'/our-team">' ."Team". '</a>';
+						 echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.site_url().'/our-team"><span itemprop="name">' ."Team". '</span></a><span itemprop="position" content="1">|</span><meta itemprop="position" content="2" /></li>';
 					}
 					  //$terms = get_the_terms( $post->ID, $taxonomy_slug );
 					  //print_r($terms);
 				  }
 				$slug = $post_type->rewrite;
-		 	   echo   ' ' . $delimiter  . ' ' . $slug['slug']. $queried_object->name . $afterTag;
+		 	   echo    ' <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="remove_deco" itemprop="item"><span itemprop="name" class="current">' . $slug['slug']. $queried_object->name . '</span></a><meta itemprop="position" content="3" /></li>';
 		  } elseif ( is_search() ) {
 		echo $beforeTag . 'Search results for "' . get_search_query() . '"' . $afterTag;
 
@@ -1523,21 +1532,21 @@ function ih_breadcrumb (array $options = array() ) {
 				  //echo '<a href="' . $homeLink . '/' . $slug['slug'] . '/">' . $post_type->labels->singular_name . '</a>';
 				  if ($showCurrent == 1) {
 				  if($post->post_type=='market') {
-				   echo $title;
+				   echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="remove_deco" itemprop="item"><span itemprop="name" class="current">'.$title.'</span></a><meta itemprop="position" content="2" /></li>';
 				   //echo ' ' . $delimiter . ' ' . 'Property Map';
 				   } else if($post->post_type=='team'){
-				   echo '<a href="' . $homeLink . '/our-team">' . $post_type->labels->singular_name . '</a>';
-				   echo  ' ' .$delimiter . $beforeTag . $title . $afterTag;
+				   echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="' . $homeLink . '/our-team"><span itemprop="name">' . $post_type->labels->singular_name . '</span></a><meta itemprop="position" content="2" />';
+				   echo  ' <span itemprop="position" content="2">' .$delimiter.'</span></li>' . $beforeTag . $title . $afterTag3;
 				   } else if($post->post_type=='video'){
-				   echo '<a href="' . $homeLink . '/video-gallery">' . $post_type->labels->singular_name . '</a>';
-				   echo  ' ' .$delimiter . $beforeTag . $title . $afterTag;
+				   echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="' . $homeLink . '/' . $slug['slug'] . '/"><span itemprop="name">' . $post_type->labels->singular_name . '</span></a><meta itemprop="position" content="2" />';
+				   echo  ' <span itemprop="position" content="2">' .$delimiter.'</span></li>' . $beforeTag . $title . $afterTag3;
 				   }
 				    else if($post->post_type=='tribe_events'){
-				   echo '<a href="' . $homeLink . '/event">' . 'Upcoming Events' . '</a>';
-				   echo  ' ' .$delimiter . $beforeTag . $title . $afterTag;
+				   echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="' . $homeLink . '/event"><span itemprop="name">' . 'Upcoming Events' . '</span></a><meta itemprop="position" content="2" />';
+				   echo  ' <span itemprop="position" content="2">' .$delimiter.'</span></li>' . $beforeTag . $title . $afterTag3;
 				   } else {
-				   echo '<a href="' . $homeLink . '/' . $slug['slug'] . '/">' . $post_type->labels->singular_name . '</a>';
-				   echo  ' ' .$delimiter . $beforeTag . $title . $afterTag;
+				   echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="' . $homeLink . '/' . $slug['slug'] . '/"><span itemprop="name">' . $post_type->labels->singular_name . '</span></a>';
+				   echo  ' <span itemprop="position" content="2">' .$delimiter.'</span><meta itemprop="position" content="2" /></li>' . $beforeTag . $title . $afterTag3;
 				   }
 
 				  }
@@ -1571,17 +1580,17 @@ function ih_breadcrumb (array $options = array() ) {
 			$title =($showTitle)? get_the_title():$post->post_name;
 			if( is_page(25) && isset($_GET['team_c']) && $_GET['team_c'] != '' && isset($_GET['loc']) && $_GET['loc'] != '' )
 			{
-			$title = '<a href="'.site_url().'/our-team">' .$title. '</a>' . $tcname.str_replace("|",",",$name);
+			$title = '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.site_url().'/our-team"><span itemprop="name">' .$title. '</span></a><meta itemprop="position" content="2" /></li><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="remove_deco" itemprop="item"><span itemprop="name" class="current">' . $tcname.str_replace("|",",",$name);
 			} else if( is_page(25) && isset($_GET['team_c']) && $_GET['team_c'] != '' )
 			{
-				$title = '<a href="'.site_url().'/our-team">' .$title. '</a>' . $tcname;
+				$title = '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.site_url().'/our-team"><span itemprop="name">' .$title. '</span></a><meta itemprop="position" content="2" /></li><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="remove_deco" itemprop="item"><span itemprop="name" class="current">' . $tcname;
 			} else if( is_page(25) && isset($_GET['loc']) && $_GET['loc'] != '' )
 			{
-			$title = '<a href="'.site_url().'/our-team">' .$title. '</a>' . $name;
+			$title = '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="'.site_url().'/our-team"><span itemprop="name">' .$title. '</span></a><meta itemprop="position" content="2" /></li><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a class="remove_deco" itemprop="item"><span itemprop="name" class="current">' . $name;
 			}
 			//if(is_page(25))$title .= $name;
 
-		if ($showCurrent == 1) echo $beforeTag .  $title . $afterTag;
+		if ($showCurrent == 1) echo $beforeTag.$title . $afterTag;
 
 	  } elseif ( is_page() && $post->post_parent ) {
 		$parent_id  = $post->post_parent;
@@ -1628,7 +1637,7 @@ function ih_breadcrumb (array $options = array() ) {
 		if ( is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author() || is_tax() ) echo ')';
 	  }
 	}
-	echo '</div>';
+	echo '</ol></div>';
   }
 // end ft_custom_breadcrumb
 //to remove next/prev post link

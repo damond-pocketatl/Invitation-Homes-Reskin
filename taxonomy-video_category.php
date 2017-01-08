@@ -112,7 +112,7 @@ get_header(); ?>
 -->
 			 <?php 
 if ( has_term('maintenance-how-to', 'video_category', $post )) {
-echo "<div style='width:100%;height:auto;margin-top:20px;padding:5px;font-size:10px;background:#ffffff;color:#000000;font-style: italic;'>*The information on this web page is intended solely to provide some helpful tips to our tenants. Nothing contained herein is intended to modify any of the obligations set forth in your lease and in the event of a conflict, the terms of your lease controls. If you should have any questions, please contact us.</div>";
+echo "<div style='width:100%;height:auto;margin-top:20px;padding:5px;font-size:10px;background:#ffffff;color:#000000;font-style: italic;'>*The information on this web page is intended solely to provide some helpful tips to our residents. Nothing contained herein is intended to modify any of the obligations set forth in your lease and in the event of a conflict, the terms of your lease controls. If you should have any questions, please contact us.</div>";
 } ?>
 		</div>
 		<?php get_sidebar(); ?>

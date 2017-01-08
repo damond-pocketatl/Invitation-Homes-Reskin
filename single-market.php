@@ -76,6 +76,20 @@ var x = '<?php echo $slugg; ?>';
 		}
 		
 	</style>
+    <?php 
+	global $post;
+	$search_distance = get_field('search_distance', $post->ID);
+	$no_cache = get_field('no_cache', $post->ID); 
+	$custom_mlocation = get_field('search_city', $post->ID);
+	if( isset($custom_mlocation) && !empty($custom_mlocation) ){
+	   
+		$mlocation = $custom_mlocation;
+	}
+	if( isset($search_distance) && !empty($search_distance) )
+	$search_distance = $search_distance;
+	else
+	$search_distance = '50';
+	?>
 <div class="slideDown">
         <div id="adv_search" class="adv_search">
 			<form id="form_adv_search" action="http://www.invitationhomesforrent.com/apartmentsforrent/searchlisting.aspx">
@@ -84,7 +98,10 @@ var x = '<?php echo $slugg; ?>';
         
      <!--    <label id="BedsBaths" class="beds_label">Beds/Baths</label>     -->
         <input type="hidden" name="txtCity" value="<?php echo $mlocation; ?>">
-        <input type="hidden" name="txtDistance" value="50">    
+        <input type="hidden" name="txtDistance" value="<?php echo $search_distance;?>">  
+        <?php  if( isset($no_cache) && !empty($no_cache) ) { ?>
+        <input type="hidden" name="nocache" value="<?php echo $no_cache;?>">   
+        <?php } ?>
         
       <!--
   <select id="Beds" name="cmbBeds">
@@ -115,7 +132,7 @@ var x = '<?php echo $slugg; ?>';
     </fieldset>
     </form></div></div>
 <!-- <span class="grabPromo showit"><p class="h2style">Refine Search</p></span> -->
-	<?php the_title('<h1 class="adv_header">Rent homes in ', '</h1>'); ?>
+	<?php the_title('<h1 class="adv_header">Lease a Home in ', '</h1>'); ?>
 		<div class="main-holder">
 			<div class="map-area"> 
 				<div class="map">
@@ -174,7 +191,7 @@ var x = '<?php echo $slugg; ?>';
 //=$meta['propdetails']['rent']
 ?></strong>
 <?php if($srcImg[0] != '') { ?>
-											<img itemprop="photo" itemscope itemtype="http://schema.org/photo" src="<?=$srcImg[0]?>" alt="image description">
+											<img src="<?=$srcImg[0]?>" alt="image description">
                                             <?php }  ?>
 										</a>
 									</div>

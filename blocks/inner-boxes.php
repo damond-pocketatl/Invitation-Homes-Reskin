@@ -1,5 +1,5 @@
 <?php
- if (isset($_COOKIE['invitationhomes'])) $category = "current";
+  if (is_page(302891)) $category = "current";
  else $category = "future";
  $arrayName = array(
 		'post_type' => 'inner_boxes',
